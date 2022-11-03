@@ -1,3 +1,15 @@
+/**
+ * Universidad de La Laguna
+ * Escuela Superior de Ingeniería y Tecnología
+ * Grado en Ingeniería Informática
+ * Complejidad Computacional
+ *
+ * @author Roberto Carrazana Pernía", "Pablo Pérez González", "Aram Pérez Dios
+ * @since Nov 3 2022
+ * @desc File loader class
+ * @module FileLoader
+ */
+
 'use strict';
 
 export class FileLoader {

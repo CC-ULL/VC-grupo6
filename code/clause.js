@@ -2,9 +2,9 @@
  * Universidad de La Laguna
  * Escuela Superior de Ingeniería y Tecnología
  * Grado en Ingeniería Informática
- * Programación de Aplicaciones Interactivas
+ * Complejidad Computacional
  *
- * @author 
+ * @author Roberto Carrazana Pernía", "Pablo Pérez González", "Aram Pérez Dios
  * @since Nov 3 2022
  * @desc Clase Clause
  * @module clause
@@ -36,6 +36,6 @@ export class Clause {
     }
     output += '}';
 
-    return output;
+    return (output);
   }
 }
