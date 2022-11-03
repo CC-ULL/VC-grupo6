@@ -1,0 +1,34 @@
+{
+    "name": "vertex_cover",
+    "version": "1.0.0",
+    "description": "3SAT to VC",
+    "devDependencies": {
+      "eslint": "^8.11.0",
+      "eslint-config-google": "^0.14.0",
+      "espree": "^9.3.1",
+      "express": "^4.17.1",
+      "jsdoc": "^3.6.10"
+    },
+    "main": "main.js",
+    "scripts": {
+      "run": "node code/main.js"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/CC-ULL/VC-grupo6.git"
+    },
+    "keywords": [
+      "PAI",
+      "Javascript",
+      "Canvas",
+      "MVC"
+    ],
+    "authors": ["Roberto Carrazana Pernía", "Pablo Pérez González", "Aram Pérez Dios"],
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/CC-ULL/VC-grupo6/issues"
+    },
+    "homepage": "https://github.com/CC-ULL/VC-grupo6#readme",
+    "type": "module"
+  }
+  
