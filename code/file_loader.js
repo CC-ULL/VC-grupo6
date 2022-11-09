@@ -12,9 +12,10 @@
 
 'use strict';
 
-const fs = require('fs');
-
-
+import { Console } from 'console';
+import fs from 'fs';
+import {Clause} from './clause.js';
+import {ThreeSAT} from './three_sat.js';
 
 export class FileLoader {
     
@@ -30,11 +31,11 @@ export class FileLoader {
          
     LoadFile() {
         if (this.#threeSAT.NumberOfLiterals > 0 || this.#threeSAT.Literals.Count > 0 || this.#threeSAT.Clauses.Count > 0) this.#threeSAT.Clear();
-   
-        ReadAllFileContent();
-        SetlLiterals();
-        SetClauses();
-        SetKValue();
+        
+        this.ReadAllFileContent();
+        this.SetlLiterals();
+        this.SetClauses();
+        this.SetKValue();
     }
 
     ReadAllFileContent() {
@@ -48,24 +49,22 @@ export class FileLoader {
 
     SetlLiterals() {
         this.#threeSAT.NumberOfLiterals = this.#satObj.literalsCount;           
-        
-        for (let i = 0; i < satObj.literalsCount; i++) {
-            this.#threeSAT.Add(satObj.literals[i]);
-        }
+        this.#threeSAT.Literals = this.#satObj.literals;
+        //
+        /*for (let i = 0; i < this.#satObj.literalsCount; i++) {
+            this.#threeSAT.Literals.push(this.#satObj.literals[i]);
+        }*/
     }
 
     SetClauses() {
         for (let i = 0; i < this.#satObj.clousuresCount; i++) {
-            let clause = new Clausure();
-            let literals = this.#satObj.clausures.split(' ');
-            for (let j = 0; j < literals.lenght; j++) {
-                clause.AddLiteral(literals[j]);
-            }
-            this.#threeSAT.Clauses.Add(clause);
+            let literals = this.#satObj.clousures[i].split(' ');
+            let clause = new Clause(literals);
+            this.#threeSAT.Clauses.push(clause);
         }
     }
 
     SetKValue() {
-        this.#threeSAT.k = this.#threeSAT.Literals.Count + 2 * this.#threeSAT.Clauses.Count;
+        this.#threeSAT.K = this.#threeSAT.NumberOfLiterals + 2 * this.#satObj.clousuresCount;
     }
 }

@@ -10,9 +10,11 @@
  * @module ThreeSAT
  */
 
- 'use strict';
+'use strict';
 
- export class ThreeSAT {
+import {Clause} from './clause.js';
+
+export class ThreeSAT {
      
  
     constructor() {
@@ -47,4 +49,4 @@
 
         return output;
     }
- }
+}
