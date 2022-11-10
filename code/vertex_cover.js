@@ -13,41 +13,19 @@
 'use strict';
 
 export class VertexCover {
-  // private ThreeSAT threeSAT;
-  #threeSAT;
-  // The form
-  // private Form form;
-  #form;
-  // The viewer object 
-  // private GViewer viewer;
-  #viewer;
-  // The graph itself
-  // private Graph graph;
-  #graph;
-
-  /// <summary>
-  /// Instantiate a new Vetex Cover problem
-  /// </summary>
-  /// <param name="threeSAT"></param>
+  
   constructor(threeSAT) {
       this.#threeSAT = threeSAT;
-      // Creates a form 
-      form = new Form();
-      // Create a viewer object 
-      viewer = new GViewer();
-      // Create the graph object
-      graph = new Graph("graph");
+      this.graph = new Graph();
   }
 
-  /// <summary>
-  /// Build the vertex cover instance using the 3-SAT content
-  /// </summary>
+ 
   buildVertexCover() {
-    createLiterals();
-    createClauses();
+    this.createLiterals();
+    this.createClauses();
 
-    fixArrowView();            
-    configureView();
+    //this.ixArrowView();            
+    //this.configureView();
   }
 
   /// <summary>
@@ -67,8 +45,8 @@ export class VertexCover {
   /// </summary>
   createClauses() {
     let aux = 1;
-    foreach (Clause clause in threeSAT.Clauses) {
-      for (int i = 0; i < clause.literals.Count; i++) {
+    for (const clause of threeSAT.clauses) {
+      for (let i = 0; i < clause.length; i++) {
         graph.AddEdge("a" + aux + "[" + i + "]", clause.literals[i]);
         graph.FindNode("a" + aux + "[" + i + "]").Attr.FillColor = Color.Yellow;
         if (i > 0)

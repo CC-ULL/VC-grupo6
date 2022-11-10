@@ -14,34 +14,40 @@
 
 import {Clause} from './clause.js';
 
+/** @desc Clase ThreeSAT */
 export class ThreeSAT {
      
- 
+    /** @desc Constructor de la clase */
     constructor() {
-        this.Literals = [];
-        this.Clauses = [];
-        this.NumberOfLiterals = 0;
-        this.K = 0;
+        this.literals = [];
+        this.clauses = [];
+        this.numberOfLiterals = 0;
+        this.numberK = 0;
     }
 
-
+    /** @desc Método para eliminar toda la información almacenada */
     clear() {
-        Literals = [];
-        Clauses = [];
-        numberOfLiterals = 0;
+        this.literals = [];
+        this.clauses = [];
+        this.numberOfLiterals = 0;
     }
 
+    /** 
+     *  @desc Método para obtener la información almacenada en forma de  
+     *      cadena de caracteres formateada
+     *  @return {String} cadena formateada
+     */
     toString() {
         let output = "U = {";
 
-        for (let literal of this.Literals) {
+        for (const literal of this.literals) {
             output += literal + ", ";
         }
 
-        output += this.Literals[this.NumberOfLiterals - 1] + "} ";
+        output += this.literals[this.numberOfLiterals - 1] + "} ";
         output += "C = {";
 
-        for (let clause of this.Clauses) 
+        for (const clause of this.clauses) 
             output += clause + ",";
 
         //output = output.substring(0, output.length() - 1);
