@@ -13,7 +13,6 @@
 'use strict';
 
 
-/** @desc Clase Slot2D */
 export class Clause {
 
   constructor(literals = []) {

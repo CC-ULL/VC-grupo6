@@ -25,39 +25,34 @@ class Graph {
   addVertex(newVertex){
     // initialize the adjacent list with a
     // null array
-    this.AdjList.set(newVertex, []);
+    this.adjacentList.set(newVertex, []);
   }
 
 	// add edge to the graph
-  addEdge(v, w){
-    // get the list for vertex v and put the
-    // vertex w denoting edge between v and w
-    this.AdjList.get(v).push(w);
-
-    // Since graph is undirected,
-    // add an edge from w to v also
-    this.AdjList.get(w).push(v);
+  addEdge(vertex, newVertex){
+    this.adjacentList.get(vertex).push(newVertex);
+    this.adjacentList.get(newVertex).push(vertex);
   }
 
 	// Prints the vertex and adjacency list
   printGraph(){
     // get all the vertices
-    let get_keys = this.AdjList.keys();
+    let vertices = this.adjacentList.keys();
 
     // iterate over the vertices
-    for (const i of get_keys){
+    for (const vertex of vertices){
       // great the corresponding adjacency list
       // for the vertex
-      let get_values = this.AdjList.get(i);
-      let conc = "";
+      let adjacentVertices = this.adjacentList.get(vertex);
+      let output = "";
 
       // iterate over the adjacency list
       // concatenate the values into a string
-      for (var j of get_values)
-        conc += j + " ";
+      for (const value of adjacentVertices)
+        output += value + " ";
 
       // print the vertex and its adjacency list
-      console.log(i + " -> " + conc);
+      console.log(vertex + " -> " + output);
     }
   }
 

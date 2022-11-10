@@ -15,10 +15,9 @@
 export class VertexCover {
   
   constructor(threeSAT) {
-      this.#threeSAT = threeSAT;
-      this.graph = new Graph();
+    this.#threeSAT = threeSAT;
+    this.graph = new Graph();
   }
-
  
   buildVertexCover() {
     this.createLiterals();
@@ -27,17 +26,27 @@ export class VertexCover {
     //this.ixArrowView();            
     //this.configureView();
   }
-
-  /// <summary>
-  /// Create the literals in the graph
-  /// </summary>
+ 
   createLiterals() {
-      // Create the graph literals
-      for (let i = 0; i < threeSAT.Literals.Count; i++) {
-          graph.AddEdge(threeSAT.Literals[i], "!" + threeSAT.Literals[i]);
-          graph.FindNode(threeSAT.Literals[i]).Attr.FillColor = Color.LightGreen;
-          graph.FindNode("!" + threeSAT.Literals[i]).Attr.FillColor = Color.LightGreen;
-      }
+    let clauseNumber = 0; 
+    // Cantidad de nodos = 2 * threeSAT.literals.length + 3 * threeSAT.clauses.length
+    for (const literal of this.#threeSAT.literals) {
+      this.graph.AddVertex(literal);
+      this.graph.AddVertex('!' + literal);
+      this.graph.AddEdge(literal, '!' + literal);
+    }
+
+    for (const clause of this.#threeSAT.clauses) {
+      this.graph.AddVertex('a' + clauseNumber + '[1]');
+      this.graph.AddVertex('a' + clauseNumber + '[2]');
+      this.graph.AddVertex('a' + clauseNumber + '[3]');
+
+      this.graph.AddEdge('a' + clauseNumber + '[1]', 'a' + clauseNumber + '[2]');
+      this.graph.AddEdge('a' + clauseNumber + '[1]', 'a' + clauseNumber + '[3]');
+      this.graph.AddEdge('a' + clauseNumber + '[2]', 'a' + clauseNumber + '[3]');
+
+      ++ clauseNumber;
+    }
   }
 
   /// <summary>

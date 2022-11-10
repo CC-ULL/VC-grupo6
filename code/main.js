@@ -11,25 +11,51 @@
 
 'use strict';
 
-import {ThreeSAT} from './three_sat.js';
-import {FileLoader} from './file_loader.js';
+//import {ThreeSAT} from './three_sat.js';
+//import {Graph} from './graph.js';
+const graphClass = require('graph');
+//import {FileLoader} from './file_loader.js';
 //import {VertexCover} from 'vertex_cover.js';
 
-export function main() {
-  /*if (args.Length != 1) {
-      Console.WriteLine("Usage: VC.exe file.sat3");
-      return;
-  }*/
-  let args = process.argv.slice(2);
-  const threeSAT = new ThreeSAT();
-  const loader = new FileLoader(threeSAT, args[0]);
-  loader.LoadFile();
-
-  console.log(threeSAT, '\n\n\n\n', threeSAT.Clauses);
+function main() {
+  //let args = process.argv.slice(2);
+  //const threeSAT = new ThreeSAT();
+  //const loader = new FileLoader(threeSAT, args[0]);
+  //loader.LoadFile();
+  //console.log(threeSAT, '\n\n\n\n', threeSAT.clauses);
   //const vc = new VertexCover(threeSAT);
   //vc.BuildVertexCover();
 
   //vc.Show();
+
+  // Using the above implemented graph class
+  let g = new Graph(6);
+  var vertices = [ 'A', 'B', 'C', 'D', 'E', 'F' ];
+  
+  // adding vertices
+  for (let i = 0; i < vertices.length; i++) {
+      g.addVertex(vertices[i]);
+  }
+  
+  // adding edges
+  g.addEdge('A', 'B');
+  g.addEdge('A', 'D');
+  g.addEdge('A', 'E');
+  g.addEdge('B', 'C');
+  g.addEdge('D', 'E');
+  g.addEdge('E', 'F');
+  g.addEdge('E', 'C');
+  g.addEdge('C', 'F');
+  
+  // prints all vertex and
+  // its adjacency list
+  // A -> B D E
+  // B -> A C
+  // C -> B E F
+  // D -> A E
+  // E -> A D F C
+  // F -> E C
+  g.printGraph();
 }
 
 main();

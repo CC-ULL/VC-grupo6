@@ -57,14 +57,14 @@ export class FileLoader {
     }
 
     SetClauses() {
-        for (let i = 0; i < this.#satObj.clousuresCount; i++) {
-            let literals = this.#satObj.clousures[i].split(' ');
+        for (let i = 0; i < this.#satObj.clausesCount; i++) {
+            let literals = this.#satObj.clauses[i].split(' ');
             let clause = new Clause(literals);
             this.#threeSAT.Clauses.push(clause);
         }
     }
 
     SetKValue() {
-        this.#threeSAT.K = this.#threeSAT.NumberOfLiterals + 2 * this.#satObj.clousuresCount;
+        this.#threeSAT.K = this.#threeSAT.NumberOfLiterals + 2 * this.#satObj.clausesCount;
     }
 }

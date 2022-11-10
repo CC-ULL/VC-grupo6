@@ -1,6 +1,6 @@
 {
     "literalsCount":4, 
     "literals": ["u1","u2","u3","u4"], 
-    "clousuresCount": 2, 
-    "clousures": ["u1 !u3 !u4", "!u1 u2 !u4"]
+    "clausesCount": 2, 
+    "clauses": ["u1 !u3 !u4", "!u1 u2 !u4"]
 }
