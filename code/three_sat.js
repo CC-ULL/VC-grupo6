@@ -4,7 +4,7 @@
  * Grado en Ingeniería Informática
  * Complejidad Computacional
  *
- * @author Roberto Carrazana Pernía", "Pablo Pérez González", "Aram Pérez Dios
+ * @author Roberto Carrazana Pernía, Pablo Pérez González, Aram Pérez Dios
  * @since Nov 3 2022
  * @desc 3SAT class
  * @module ThreeSAT

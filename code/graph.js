@@ -4,7 +4,7 @@
  * Grado en Ingeniería Informática
  * Complejidad Computacional
  *
- * @author Roberto Carrazana Pernía", "Pablo Pérez González", "Aram Pérez Dios
+ * @author Roberto Carrazana Pernía, Pablo Pérez González, Aram Pérez Dios
  * @since Nov 3 2022
  * @desc Vertex Cover class
  * @module VertexCover
@@ -12,51 +12,48 @@
 
  'use strict';
 
-// create a graph class
-class Graph {
-	// defining vertex array and
-	// adjacent list
+ /** @desc Clase Graph */
+export class Graph {
+
+	/**
+   * @desc Constructor de la clase Graph
+   * @param {Number} numberOfVertices - cantidad de nodos
+   */
 	constructor(numberOfVertices){
-		this.noOfVertices = numberOfVertices;
+		this.numberOfVertices = numberOfVertices;
 		this.adjacentList = new Map();
 	}
 
-	// add vertex to the graph
+	/**
+   * @desc Método para añadir un nuevo nodo
+   * @param {String} newVertex - etiqueta del nuevo vértice
+   */
   addVertex(newVertex){
-    // initialize the adjacent list with a
-    // null array
     this.adjacentList.set(newVertex, []);
   }
 
-	// add edge to the graph
+	/**
+   * @desc Método para añadir una nueva arista
+   * @param {String} vertex - etiqueta del vértice que se quiere conectar
+   * @param {String} newVertex - etiqueta del vértice al que se conecta
+   */
   addEdge(vertex, newVertex){
     this.adjacentList.get(vertex).push(newVertex);
     this.adjacentList.get(newVertex).push(vertex);
   }
 
-	// Prints the vertex and adjacency list
+	/** @desc Método para imprimir el grafo por consola */
   printGraph(){
-    // get all the vertices
     let vertices = this.adjacentList.keys();
 
-    // iterate over the vertices
     for (const vertex of vertices){
-      // great the corresponding adjacency list
-      // for the vertex
       let adjacentVertices = this.adjacentList.get(vertex);
       let output = "";
 
-      // iterate over the adjacency list
-      // concatenate the values into a string
       for (const value of adjacentVertices)
         output += value + " ";
 
-      // print the vertex and its adjacency list
       console.log(vertex + " -> " + output);
     }
   }
-
-
-	// bfs(v)
-	// dfs(v)
 }

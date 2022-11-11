@@ -1,0 +1,73 @@
+#buttons {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  font-size: 200%;
+  background-color: gray;
+}
+
+#buttons {
+  color: 'white';
+  background-color: 'blue';
+}
+
+#sliders {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.blueBackground {
+  background-color: blue;
+}
+
+.grayBackground {
+  background-color: gray;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+#restart {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin: auto;
+  font-size: 140%;
+}
+
+
+#back {
+  text-align: left;
+  text-indent: 30px;
+  background-color: azure;
+}
+
+body {  
+  background-color: azure;
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 20px;
+  border:3px solid black;
+  background-color: red;
+  border-radius: 20px;
+}
+
+#mainCanvas {  
+  border:3px solid black;
+}
+
+#canvasContainer {
+  display: flex;
+  justify-content: center;
+}
+
+#Refresh {
+  font-weight: bold;
+  color: white;
+  background-color: red;
+  border-radius: 10px;
+}
