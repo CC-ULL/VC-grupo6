@@ -17,19 +17,32 @@ import { View } from './view/view.js';
 
 
 import {ThreeSAT} from './three_sat.js';
-import {FileLoader} from './file_loader.js';
 import {VertexCover} from './vertex_cover.js';
 
 const CANVAS = document.getElementById('mainCanvas');
 
+import threeSATData from "./input/input1.json" assert { type: 'json' };
+
 function main() {
-  //let args = process.argv.slice(2);
   const threeSAT = new ThreeSAT();
-  const loader = new FileLoader(threeSAT, "./input/input1.json");
-  loader.LoadFile();
+  //let args = process.argv.slice(2);  
+  //const loader = new FileLoader(threeSAT, "./input/input1.json");
+  //loader.LoadFile();
   //console.log(threeSAT, '\n\n\n\n', threeSAT.clauses);
+
+  let threesatObject = threeSATData;
+
+  threeSAT.numberOfLiterals = threesatObject.literalsCount;           
+  threeSAT.literals = threesatObject.literals;
+
+  for (const clause of threesatObject.clauses) {
+    threeSAT.clauses.push(clause);
+  }
+
+  console.log(threeSAT.literals, threeSAT.clauses);
+
   const vc = new VertexCover(threeSAT);
-  vc.BuildVertexCover();
+  //vc.buildVertexCover(); // <---- PROBLEMA: Crea putos literales en plan: u1, !u1, !!u1, ... !!!!!u1 ... WTF
 
   //vc.Show();
 

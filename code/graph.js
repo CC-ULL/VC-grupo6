@@ -19,7 +19,7 @@ export class Graph {
    * @desc Constructor de la clase Graph
    * @param {Number} numberOfVertices - cantidad de nodos
    */
-	constructor(numberOfVertices){
+	constructor(numberOfVertices = 0){
 		this.numberOfVertices = numberOfVertices;
 		this.adjacentList = new Map();
 	}

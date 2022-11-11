@@ -51,11 +51,12 @@ export class View {
     this.graph.addEdge('E', 'C');
     this.graph.addEdge('C', 'F');
 */
+    this.vertices = vertexCoverGraph.nodesTags;
     this.graph = vertexCoverGraph.graph;
     this.nodes = [];
     this.edges = [];
-    this.#createGraphNodes();
-    this.#createGraphEdges();
+    //this.#createGraphNodes();
+    //this.#createGraphEdges();
     
   }
 
