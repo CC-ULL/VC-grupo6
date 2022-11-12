@@ -10,7 +10,7 @@
  * @module VertexCover
  */
 
- 'use strict';
+'use strict';
 
  /** @desc Clase Graph */
 export class Graph {

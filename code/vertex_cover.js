@@ -30,19 +30,21 @@ export class VertexCover {
   /** @desc Método para construir el VertexCover */
   buildVertexCover() {
     this.createLiterals();
-    //this.createClauses();
+    this.createClauses();
   }
  
   /** @desc Método para crear los literales incluidos en el VertexCover */
   createLiterals() {
     for (const literal of this.threeSAT.literals) {
-      console.log(literal);
+      //console.log(literal);
       this.graph.addVertex(literal);
       this.graph.addVertex('!' + literal);
-      this.nodesTags.push('!' + literal);
-      //this.graph.addEdge(literal, '!' + literal);
+      
+      // no se para que es nodetags
+      //this.nodesTags.push('!' + literal);
+      this.graph.addEdge(literal, '!' + literal);
     }
-    console.log(literal);
+    //console.log(literal);
   }
 
    /** @desc Método para crear las cláusulas */
@@ -57,7 +59,15 @@ export class VertexCover {
       this.graph.addEdge(`a${clauseNumber}[1]`, `a${clauseNumber}[3]`);
       this.graph.addEdge(`a${clauseNumber}[2]`, `a${clauseNumber}[3]`);
 
-      
+
+      // cada a[i][j] debe estar conectado a alguno de los literales de la clausula
+      this.graph.addEdge(`a${clauseNumber}[1]`, clause.literals[0]);
+      this.graph.addEdge(`a${clauseNumber}[2]`, clause.literals[1]);
+      this.graph.addEdge(`a${clauseNumber}[3]`, clause.literals[2]);
+
+
+      // no hace falta
+      /*
       let actualClause = 0;
       for(let index = 0; index < clause.length; ++index) {
         if (clause[index] !== ' ') {
@@ -72,8 +82,9 @@ export class VertexCover {
           ++ actualClause;
         }
       }
+      */
 
-      ++ clauseNumber;
+      clauseNumber++;
     }
   }
 }

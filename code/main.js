@@ -35,15 +35,17 @@ function main() {
   threeSAT.numberOfLiterals = threesatObject.literalsCount;           
   threeSAT.literals = threesatObject.literals;
 
-  for (const clause of threesatObject.clauses) {
+  for (let i = 0; i < threesatObject.clausesCount; i++) {
+    let literals = threesatObject.clauses[i].split(' ');
+    let clause = new Clause(literals);
     threeSAT.clauses.push(clause);
   }
 
-  console.log(threeSAT.literals, threeSAT.clauses);
-
   const vc = new VertexCover(threeSAT);
-  //vc.buildVertexCover(); // <---- PROBLEMA: Crea putos literales en plan: u1, !u1, !!u1, ... !!!!!u1 ... WTF
-
+  vc.buildVertexCover(); // <---- solucionado en tres lineas en vertex_cover en la funcion createClauses()
+  
+  console.log(threeSAT.literals, threeSAT.clauses);
+  vc.graph.printGraph();  // <---- muestra el grafo correctamente en consola
   //vc.Show();
 
   let view = new View(CANVAS, vc);
