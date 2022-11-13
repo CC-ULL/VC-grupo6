@@ -12,7 +12,7 @@
 
 'use static';
 
-import { Graph } from '../graph.js';
+import { VertexCover } from '../vertex_cover.js';
 import { Point2D } from './point2d.js';
 const POINT_SIZE = 30;
 
@@ -23,69 +23,78 @@ export class View {
   #height;
   #width;
 
+  #vertexCover;
+
   /**
    * @desc Constructor de la clase View
    * @param {Element} canvas - canvas sobre el que dibujar
-   * @param {Graph} vertexCoverGraph - grafo a dibujar
+   * @param {VertexCover} vertexCover - problema VC
    */
-  constructor(canvas, vertexCoverGraph) {
+  constructor(canvas, vertexCover) {
     this.#canvas = canvas;
     this.#context = canvas.getContext('2d');
     this.#height = Number(canvas.getAttribute('height'));
     this.#width = Number(canvas.getAttribute('width'));
 
-    // GRAFO EJEMPLO
-    /*this.graph = new Graph(6);
-    this.vertices = [ 'A', 'B', 'C', 'D', 'E', 'F' ];
-
-    for (let i = 0; i < this.vertices.length; i++) {
-      this.graph.addVertex(this.vertices[i]);
-    }
-
-    this.graph.addEdge('A', 'B');
-    this.graph.addEdge('A', 'D');
-    this.graph.addEdge('A', 'E');
-    this.graph.addEdge('B', 'C');
-    this.graph.addEdge('D', 'E');
-    this.graph.addEdge('E', 'F');
-    this.graph.addEdge('E', 'C');
-    this.graph.addEdge('C', 'F');
-*/
-    this.vertices = vertexCoverGraph.nodesTags;
-    this.graph = vertexCoverGraph.graph;
-    this.nodes = [];
+    this.#vertexCover = vertexCover;
+    this.allNodes = [];
+    this.literalNodes = [];
+    this.clauseNodes = [];    
     this.edges = [];
-    //this.#createGraphNodes();
-    //this.#createGraphEdges();
+
+    this.allTags = [];
+    this.literalTags = vertexCover.literalTags;
+    this.clauseLiteralsTags = vertexCover.clauseLiteralTags;   
     
+    this.#createGraphNodes();
+    this.#createGraphEdges();    
   }
 
+  /** @desc Método para crear los nodos del grafo */
   #createGraphNodes() {
-    // Cuatro nodos por nivel
-    let nodesPerLevel = 4;
-    let nodeLevels = this.vertices.length / nodesPerLevel;
-    let widthBetweenNodes = this.#width * 0.8 / nodesPerLevel;
-    let heightBetweenNodes = this.#height * 0.8 / nodeLevels;
-
-    let down = false;
+    // Literales. Nodos de la parte superior.
+    let widthBetweenNodes = this.#width * 0.95 / this.literalTags.length;
+    let heightBetweenNodes = this.#height * 0.2;        
     
-    for (let level = 0; level < nodeLevels; ++level) {
-      for (let node = 0; node < 4; ++node) {
-        let coordinateX = widthBetweenNodes + node * widthBetweenNodes;
-        let coordinateY = heightBetweenNodes / 4 + level * heightBetweenNodes;
-        if (down) coordinateY += heightBetweenNodes / 4;
-        this.nodes.push(new Point2D(coordinateX, coordinateY));
+    for (let node = 0; node < this.literalTags.length; ++node) {
+      let coordinateX = (this.#width * 0.05) + node * widthBetweenNodes;
+      let coordinateY = heightBetweenNodes;
+      
+      this.literalNodes.push(new Point2D(coordinateX, coordinateY));      
+    }
+    // Cláusulas. Nodos de la parte inferior.
+    let down = false;
+    let nodeCounter = 0;
+    widthBetweenNodes = this.#width * 0.95 / this.clauseLiteralsTags.length;
+    heightBetweenNodes = this.#height * 0.6;
+
+    for (const clause of this.#vertexCover.threeSAT.clauses) {  
+      down = !down;    
+      for (const literal of clause.literals) {
+        let coordinateX = (this.#width * 0.05) + nodeCounter * widthBetweenNodes;
+        let coordinateY = heightBetweenNodes;
+        this.clauseNodes.push(new Point2D(coordinateX, coordinateY + (down * heightBetweenNodes / 4)));
         down = !down;
+        ++ nodeCounter;
       }
-    }    
+    }
+    this.allNodes = this.literalNodes.concat(this.clauseNodes);
+    this.allTags = this.literalTags.concat(this.clauseLiteralsTags);
   }
 
-  #drawGraphNodes() {      
-    for (let index = 0; index < this.vertices.length; ++index) {
-      //console.log(this.vertices[index], this.nodes[index].coordinateX, this.nodes[index].coordinateY);
+  /** @desc Método para dibujar todos los nodos del grafo */
+  #drawGraphNodes() {   
+    this.#context.lineWidth = 1;   
+    this.#drawLiteralNodes();
+    this.#drawClauseNodes();
+  }
+
+  /** @desc Método para dibujar los nodos del grafo referentes a los literales*/
+  #drawLiteralNodes() {
+    for (let index = 0; index < this.literalTags.length; ++index) {
       this.#context.beginPath();
-      this.#context.fillStyle = 'red';
-      this.#context.ellipse(this.nodes[index].coordinateX, this.nodes[index].coordinateY, POINT_SIZE, POINT_SIZE, Math.PI / 4, 0, Math.PI * 2);
+      this.#context.fillStyle = 'yellow';
+      this.#context.ellipse(this.literalNodes[index].coordinateX, this.literalNodes[index].coordinateY, POINT_SIZE, POINT_SIZE, Math.PI / 4, 0, Math.PI * 2);
       this.#context.fill();
       this.#context.stroke();
 
@@ -94,28 +103,50 @@ export class View {
       this.#context.font = '35px Arial';   
       this.#context.textAlign = "center";
       this.#context.textBaseline = "middle";
-      this.#context.fillText(this.vertices[index], this.nodes[index].coordinateX, this.nodes[index].coordinateY);
+      this.#context.fillText(this.literalTags[index], this.literalNodes[index].coordinateX, this.literalNodes[index].coordinateY);
       this.#context.fill();
-    }    
+    }
   }
 
+  /** @desc Método para dibujar los nodos del grafo componente de las cláusulas*/
+  #drawClauseNodes() {
+    for (let index = 0; index < this.clauseLiteralsTags.length; ++index) {
+      this.#context.beginPath();
+      this.#context.fillStyle = 'orange';
+      this.#context.ellipse(this.clauseNodes[index].coordinateX, this.clauseNodes[index].coordinateY, POINT_SIZE, POINT_SIZE, Math.PI / 4, 0, Math.PI * 2);
+      this.#context.fill();
+      this.#context.stroke();
+
+      this.#context.beginPath();
+      this.#context.fillStyle = 'black';
+      this.#context.font = '25px Arial';   
+      this.#context.textAlign = "center";
+      this.#context.textBaseline = "middle";
+      this.#context.fillText(this.clauseLiteralsTags[index], this.clauseNodes[index].coordinateX, this.clauseNodes[index].coordinateY);
+      this.#context.fill();
+    }
+  }
+  
+  /** @desc Método para crear las aristas del grafo */
   #createGraphEdges() {
-    let adjacentList = this.graph.adjacentList;
+    let adjacentList = this.#vertexCover.graph.adjacentList;
     let vertexIndex = 0;
     for (const vertex of adjacentList) {
       for (const adjacentNode of adjacentList.get(vertex[0])) {
-        for (let index = 0; index < this.vertices.length; ++index) {
-          if (adjacentNode === this.vertices[index]) {
-            this.edges.push([this.nodes[vertexIndex], this.nodes[index]])
+        for (let index = 0; index < this.allTags.length; ++index) {
+          if (adjacentNode === this.allTags[index]) {
+            //if (this.allNodes[vertexIndex] !== undefined)
+            this.edges.push([this.allNodes[vertexIndex], this.allNodes[index]])
           }
         }
       }
       vertexIndex ++;
-    }   
+    }
   }
 
+  /** @desc Método para dibujar las aristas del grafo */
   #drawGraphEdges() {    
-    this.#context.lineWidth = 3;
+    this.#context.lineWidth = 2;
     for (const edge of this.edges) {
       this.#context.beginPath();
       this.#context.strokeStyle = 'black';
@@ -138,7 +169,7 @@ export class View {
   #draw() {  
     //this.#context.clearRect(0, 0, this.#width, this.#height);
     //this.#context.drawImage(this.#backgroundImage, 0, 0, this.#width, this.#height);
-    this.#drawGraphEdges()
+    this.#drawGraphEdges();
     this.#drawGraphNodes();    
   }  
    

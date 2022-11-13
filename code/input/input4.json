@@ -1,0 +1,6 @@
+{
+    "literalsCount":2, 
+    "literals": ["u1","u2"], 
+    "clausesCount": 3, 
+    "clauses": ["u1 u1 u2", "!u1 !u2 !u2", "!u1 u2 u2"]
+}

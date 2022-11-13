@@ -24,7 +24,8 @@ export class VertexCover {
   constructor(threeSAT) {
     this.threeSAT = threeSAT;
     this.graph = new Graph();
-    this.nodesTags = threeSAT.literals;
+    this.literalTags = [];
+    this.clauseLiteralTags = [];
   }
  
   /** @desc Método para construir el VertexCover */
@@ -36,15 +37,13 @@ export class VertexCover {
   /** @desc Método para crear los literales incluidos en el VertexCover */
   createLiterals() {
     for (const literal of this.threeSAT.literals) {
-      //console.log(literal);
       this.graph.addVertex(literal);
-      this.graph.addVertex('!' + literal);
-      
-      // no se para que es nodetags
-      //this.nodesTags.push('!' + literal);
+      this.graph.addVertex('!' + literal);      
       this.graph.addEdge(literal, '!' + literal);
-    }
-    //console.log(literal);
+
+      this.literalTags.push(literal);
+      this.literalTags.push('!' + literal);
+    }    
   }
 
    /** @desc Método para crear las cláusulas */
@@ -59,30 +58,14 @@ export class VertexCover {
       this.graph.addEdge(`a${clauseNumber}[1]`, `a${clauseNumber}[3]`);
       this.graph.addEdge(`a${clauseNumber}[2]`, `a${clauseNumber}[3]`);
 
-
       // cada a[i][j] debe estar conectado a alguno de los literales de la clausula
       this.graph.addEdge(`a${clauseNumber}[1]`, clause.literals[0]);
       this.graph.addEdge(`a${clauseNumber}[2]`, clause.literals[1]);
       this.graph.addEdge(`a${clauseNumber}[3]`, clause.literals[2]);
 
-
-      // no hace falta
-      /*
-      let actualClause = 0;
-      for(let index = 0; index < clause.length; ++index) {
-        if (clause[index] !== ' ') {
-          if (clause[index] === '!') {
-            this.graph.addEdge(`a${clauseNumber}[${actualClause}]`, clause.substring(index, index+2));
-            ++ index;
-          }
-          else {
-            this.graph.addEdge(`a${clauseNumber}[${actualClause}]`, clause.substring(index, index+1));
-          }
-          ++ index;
-          ++ actualClause;
-        }
-      }
-      */
+      this.clauseLiteralTags.push(`a${clauseNumber}[1]`);
+      this.clauseLiteralTags.push(`a${clauseNumber}[2]`);
+      this.clauseLiteralTags.push(`a${clauseNumber}[3]`);
 
       clauseNumber++;
     }
