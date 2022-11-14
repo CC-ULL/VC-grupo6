@@ -2,7 +2,7 @@
  * Universidad de La Laguna
  * Escuela Superior de Ingeniería y Tecnología
  * Grado en Ingeniería Informática
- * Programación de Aplicaciones Interactivas
+ * Complejidad Computacional
  *
  * @author Roberto Carrazana Pernía, Pablo Pérez González, Aram Pérez Dios
  * @since Nov 11 2022
@@ -14,6 +14,8 @@
 
 import { VertexCover } from '../vertex_cover.js';
 import { Point2D } from './point2d.js';
+
+import { SOLUTION } from '../main.js';
 const POINT_SIZE = 30;
 
  /** @desc Clase View */
@@ -92,7 +94,7 @@ export class View {
   #drawLiteralNodes() {
     for (let index = 0; index < this.literalTags.length; ++index) {
       this.#context.beginPath();
-      this.#context.fillStyle = 'yellow';
+      this.#context.fillStyle = this.#isOnSolution(this.literalTags[index]) ? 'red' : 'yellow';
       this.#context.ellipse(this.literalNodes[index].coordinateX, this.literalNodes[index].coordinateY, POINT_SIZE, POINT_SIZE, Math.PI / 4, 0, Math.PI * 2);
       this.#context.fill();
       this.#context.stroke();
@@ -111,7 +113,7 @@ export class View {
   #drawClauseNodes() {
     for (let index = 0; index < this.clauseLiteralsTags.length; ++index) {
       this.#context.beginPath();
-      this.#context.fillStyle = 'orange';
+      this.#context.fillStyle = this.#isOnSolution(this.clauseLiteralsTags[index]) ? 'red' : 'orange';
       this.#context.ellipse(this.clauseNodes[index].coordinateX, this.clauseNodes[index].coordinateY, POINT_SIZE, POINT_SIZE, Math.PI / 4, 0, Math.PI * 2);
       this.#context.fill();
       this.#context.stroke();
@@ -120,10 +122,24 @@ export class View {
       this.#context.fillStyle = 'black';
       this.#context.font = '25px Arial';   
       this.#context.textAlign = "center";
-      this.#context.textBaseline = "middle";
+      this.#context.textBaseline = "middle";      
       this.#context.fillText(this.clauseLiteralsTags[index], this.clauseNodes[index].coordinateX, this.clauseNodes[index].coordinateY);
       this.#context.fill();
     }
+  }
+
+  /**
+   * @desc Método para comprobar que el vértice proporcionado está dentro de la solución.
+   * @param {String} nodeName - identificador del vértice
+   * @return {true | false} - 'true' si está incluido en la solución
+   */
+  #isOnSolution(nodeName) {
+    for (let index = 0; index < SOLUTION.length; ++index) {
+      if (nodeName === SOLUTION[index]){
+        return(true);
+      }
+    }
+    return(false);
   }
   
   /** @desc Método para crear las aristas del grafo */

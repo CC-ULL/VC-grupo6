@@ -16,6 +16,8 @@ import {VertexCover} from './vertex_cover.js';
 
 import threeSATData from "./input/input2.json" assert { type: 'json' };
 
+export const SOLUTION = [/*'u1', 'u2','!u3', '!u4', 'a0[1]', 'a0[3]', 'a1[1]', 'a1[3]', 'a2[2]', 'a2[3]'*/];
+
 import { View } from './view/view.js';
 const CANVAS = document.getElementById('mainCanvas');
 
@@ -31,7 +33,7 @@ function main() {
 
   const vc = new VertexCover(threeSAT);
   vc.buildVertexCover();
-  
+
   vc.graph.printGraph();  // <---- muestra el grafo correctamente en consola
 
   let view = new View(CANVAS, vc);
