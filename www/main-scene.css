@@ -44,7 +44,7 @@
 }
 
 body {  
-  background-color: azure;
+  background-color: rgb(19, 28, 54);
 }
 
 a {
@@ -57,7 +57,7 @@ a {
 }
 
 #mainCanvas {  
-  border:3px solid black;
+  border:5px solid rgb(89, 98, 124);
 }
 
 #canvasContainer {

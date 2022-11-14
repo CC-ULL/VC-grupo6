@@ -53,29 +53,28 @@ export class View {
   /** @desc Método para crear los nodos del grafo */
   #createGraphNodes() {
     // Literales. Nodos de la parte superior.
-    let widthBetweenNodes = this.#width * 0.95 / this.literalTags.length;
-    let heightBetweenNodes = this.#height * 0.2;        
+    let width = this.#width * 0.90;
+    let widthBetweenNodes = width / (this.literalTags.length - 1);
+    let height = this.#height * 0.2;        
     
-    for (let node = 0; node < this.literalTags.length; ++node) {
-      let coordinateX = (this.#width * 0.05) + node * widthBetweenNodes;
-      let coordinateY = heightBetweenNodes;
-      
-      this.literalNodes.push(new Point2D(coordinateX, coordinateY));      
+    let coordinateX = (width * 0.05);
+
+    for (let node = 0; node < this.literalTags.length; ++node) {      
+      this.literalNodes.push(new Point2D(coordinateX, height)); 
+      coordinateX += widthBetweenNodes;     
     }
     // Cláusulas. Nodos de la parte inferior.
     let down = false;
-    let nodeCounter = 0;
-    widthBetweenNodes = this.#width * 0.95 / this.clauseLiteralsTags.length;
-    heightBetweenNodes = this.#height * 0.6;
+    widthBetweenNodes = width / (this.clauseLiteralsTags.length - 1) ;
+    height = this.#height * 0.7;
 
+    coordinateX = (this.#width * 0.05);
     for (const clause of this.#vertexCover.threeSAT.clauses) {  
       down = !down;    
       for (const literal of clause.literals) {
-        let coordinateX = (this.#width * 0.05) + nodeCounter * widthBetweenNodes;
-        let coordinateY = heightBetweenNodes;
-        this.clauseNodes.push(new Point2D(coordinateX, coordinateY + (down * heightBetweenNodes / 4)));
+        this.clauseNodes.push(new Point2D(coordinateX, height + (down * height / 5)));
+        coordinateX += widthBetweenNodes;
         down = !down;
-        ++ nodeCounter;
       }
     }
     this.allNodes = this.literalNodes.concat(this.clauseNodes);
@@ -83,7 +82,7 @@ export class View {
   }
 
   /** @desc Método para dibujar todos los nodos del grafo */
-  #drawGraphNodes() {   
+  #drawGraphNodes() { 
     this.#context.lineWidth = 1;   
     this.#drawLiteralNodes();
     this.#drawClauseNodes();
@@ -169,6 +168,11 @@ export class View {
   #draw() {  
     //this.#context.clearRect(0, 0, this.#width, this.#height);
     //this.#context.drawImage(this.#backgroundImage, 0, 0, this.#width, this.#height);
+    this.#context.beginPath();
+    this.#context.fillStyle = 'white';    
+    this.#context.fillRect(0, 0, this.#width, this.#height);
+    this.#context.fill();
+
     this.#drawGraphEdges();
     this.#drawGraphNodes();    
   }  
