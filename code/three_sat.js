@@ -21,12 +21,10 @@ export class ThreeSAT {
   constructor() {
     this.literals = [];
     this.clauses = [];
-    this.numberOfLiterals = 0;
-    this.numberK = 0;
   }
 
   /**
-   * @desc Método para crear una salida de problema 3SAT desde un objeto
+   * @desc Método para crear una entrada de problema 3SAT desde un objeto
    * @param {Object} threeSATData - objeto 3SAT leido desde documento JSON
    */
   createFromObject(threeSATData) {
@@ -36,9 +34,9 @@ export class ThreeSAT {
     this.literals = threesatObject.literals;
 
     for (let i = 0; i < threesatObject.clausesCount; i++) {
-        let literals = threesatObject.clauses[i].split(' ');
-        let clause = new Clause(literals);
-        this.clauses.push(clause);
+      let literals = threesatObject.clauses[i].split(' ');
+      let clause = new Clause(literals);
+      this.clauses.push(clause);
     }
   }
 
@@ -61,7 +59,7 @@ export class ThreeSAT {
         output += literal + ", ";
     }
 
-    output += this.literals[this.numberOfLiterals - 1] + "} ";
+    output += this.literals[this.literals.length - 1] + "} ";
     output += "C = {";
 
     for (const clause of this.clauses) {

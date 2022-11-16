@@ -32,7 +32,6 @@ function main() {
   threeSAT.createFromObject(threeSATData);  
 
   const vc = new VertexCover(threeSAT);
-  vc.buildVertexCover();
 
   vc.graph.printGraph();  // <---- muestra el grafo correctamente en consola
 

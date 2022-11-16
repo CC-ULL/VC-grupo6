@@ -19,26 +19,22 @@ export class VertexCover {
 
   /**
    * @desc Constructor de la clase VertexCover
-   * @param {ThreeSAT} threeSAT - salida de un problema ThreeSAT
+   * @param {ThreeSAT} threeSAT - entrada de un problema ThreeSAT
    */
   constructor(threeSAT) {
     this.threeSAT = threeSAT;
     this.graph = new Graph();
     this.literalTags = [];
     this.clauseLiteralTags = [];
-  }
- 
-  /** @desc Método para construir el VertexCover */
-  buildVertexCover() {
-    this.createLiterals();
-    this.createClauses();
+    this.#createLiterals();
+    this.#createClauses();
   }
  
   /** @desc Método para crear los literales incluidos en el VertexCover */
-  createLiterals() {
+  #createLiterals() {
     for (const literal of this.threeSAT.literals) {
       this.graph.addVertex(literal);
-      this.graph.addVertex('!' + literal);      
+      this.graph.addVertex('!' + literal);
       this.graph.addEdge(literal, '!' + literal);
 
       this.literalTags.push(literal);
@@ -47,7 +43,7 @@ export class VertexCover {
   }
 
    /** @desc Método para crear las cláusulas */
-  createClauses() {
+  #createClauses() {
     let clauseNumber = 0;
     for (const clause of this.threeSAT.clauses) {
       this.graph.addVertex(`a${clauseNumber}[1]`);
@@ -58,7 +54,7 @@ export class VertexCover {
       this.graph.addEdge(`a${clauseNumber}[1]`, `a${clauseNumber}[3]`);
       this.graph.addEdge(`a${clauseNumber}[2]`, `a${clauseNumber}[3]`);
 
-      // cada a[i][j] debe estar conectado a alguno de los literales de la clausula
+      // Cada a[i][j] se conecta al literal correspondiente de la clausula
       this.graph.addEdge(`a${clauseNumber}[1]`, clause.literals[0]);
       this.graph.addEdge(`a${clauseNumber}[2]`, clause.literals[1]);
       this.graph.addEdge(`a${clauseNumber}[3]`, clause.literals[2]);
